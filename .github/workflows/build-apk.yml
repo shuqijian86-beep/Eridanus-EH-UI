@@ -28,11 +28,10 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: eas whoami
 
-      - name: Link EAS project
+      - name: Create EAS project
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        run: |
-          eas init --non-interactive || true
+        run: eas init --account 777777jjjwwfgc --non-interactive
 
       - name: Create eas.json
         run: |
