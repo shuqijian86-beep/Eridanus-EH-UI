@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Event Horizon",
-    "slug": "event-horizon-demo",
+    "slug": "event-horizon",
     "scheme": "ehdemo",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
-      }
+      },
+      "package": "com.eventhorizon.app"
     },
     "web": {
       "backgroundColor": "#000000"
@@ -31,9 +32,6 @@
           "web": "production",
           "default": false
         }
-      },
-      "eas": {
-        "projectId": "384b961e-be96-4160-b726-6ab4d59f6094"
       }
     },
     "experiments": {
@@ -46,12 +44,6 @@
       "expo-secure-store",
       "expo-splash-screen"
     ],
-    "owner": "eridanus459",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/384b961e-be96-4160-b726-6ab4d59f6094"
-    }
+    "owner": "777777jjjwwfgc"
   }
 }
