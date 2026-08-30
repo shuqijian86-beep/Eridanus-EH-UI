@@ -21,21 +21,55 @@ jobs:
         run: npm install
 
       - name: Install EAS CLI
-        run: npm install -g eas-cli
+        run: npm install -g eas-cli@latest
 
-      - name: Configure Expo token
-        run: echo "EXPO_TOKEN=${{ secrets.EXPO_TOKEN }}" >> $GITHUB_ENV
+      - name: Check login
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: eas whoami
 
-      - name: Build APK on EAS
+      - name: Link EAS project
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          eas init --non-interactive || true
+
+      - name: Create eas.json
+        run: |
+          cat > eas.json << 'EASEOF'
+          {
+            "cli": {
+              "version": ">= 3.0.0",
+              "appVersionSource": "local"
+            },
+            "build": {
+              "preview": {
+                "android": {
+                  "buildType": "apk",
+                  "distribution": "internal"
+                }
+              },
+              "production": {
+                "android": {
+                  "buildType": "apk"
+                }
+              }
+            }
+          }
+          EASEOF
+
+      - name: Build APK
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: eas build --platform android --profile preview --non-interactive --wait
 
-      - name: Show download info
+      - name: Show download link
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
-          echo "============================================"
-          echo "构建完成！去 https://expo.dev 下载 APK"
-          echo "============================================"
+          echo "========================================="
+          echo "构建完成！下载方式："
+          echo "1. 去 https://expo.dev 登录下载"
+          echo "2. 或者看下面的 JSON 里的 buildUrl"
+          echo "========================================="
           eas build:list --platform android --limit 1 --json
