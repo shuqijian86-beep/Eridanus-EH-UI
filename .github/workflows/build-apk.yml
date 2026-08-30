@@ -31,7 +31,7 @@ jobs:
       - name: Link EAS project
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        run: eas init --id cfc55432-168c-4b9f-9fec-150f61425c8c --non-interactive
+        run: eas init --id cfc55432-168c-4b9f-9fec-150f61425c8c --force --non-interactive
 
       - name: Create eas.json
         run: |
