@@ -15,26 +15,27 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
+          node-version: 22
 
       - name: Install dependencies
         run: npm install
 
-      - name: Setup Expo and EAS
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Configure Expo token
+        run: echo "EXPO_TOKEN=${{ secrets.EXPO_TOKEN }}" >> $GITHUB_ENV
 
       - name: Build APK on EAS
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: eas build --platform android --profile preview --non-interactive --wait
 
-      - name: Get APK download URL
+      - name: Show download info
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
           echo "============================================"
-          echo "构建完成！"
-          echo "去 https://expo.dev 你的账号里下载 APK"
-          echo "或者执行以下命令查看下载链接："
-          eas build:list --platform android --limit 1 --json
+          echo "构建完成！去 https://expo.dev 下载 APK"
           echo "============================================"
+          eas build:list --platform android --limit 1 --json
